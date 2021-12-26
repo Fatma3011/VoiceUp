@@ -19,11 +19,17 @@ les conversations.
 
 2. Install dependencies.
 
-```js
-npm install
-// or
-yarn install
-```
+ a. For Frontend part 
+  
+  ```
+  cd frontend/
+  ```
+
+  ```js
+  npm install
+  // or
+  yarn install
+  ```
 
 3. Run project on Web Browser / iOS / Android.
 
