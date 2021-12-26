@@ -19,7 +19,7 @@ les conversations.
 
 2. Install dependencies.
 
- a. For Frontend part 
+   a. For Frontend part : ReactNative
   
   ```
   cd frontend/
@@ -29,6 +29,11 @@ les conversations.
   npm install
   // or
   yarn install
+  ```
+   a. For backend part : Spring Boot
+     
+  ```
+  cd backend/
   ```
 
 3. Run project on Web Browser / iOS / Android.
