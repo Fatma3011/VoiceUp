@@ -11,69 +11,102 @@ import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { nameValidator } from '../helpers/nameValidator'
+import {useFormik} from 'formik';
+import { register } from '../services/auth.services'
 
 export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState({ value: '', error: '' })
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
-
-  const onSignUpPressed = () => {
-    const nameError = nameValidator(name.value)
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [nameError, setNameError] = useState('')
+  const validationSchema = (values) => {
+    const emailError = emailValidator(values.email)
+    const passwordError = passwordValidator(values.password)
+    const nameError = nameValidator(values.name)
     if (emailError || passwordError || nameError) {
-      setName({ ...name, error: nameError })
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
+      setEmailError(emailError )
+      setPasswordError(passwordError )
+      setNameError(nameError)
+      return 
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
+  return 1;
+}
+const initialValues = {
+  name:'',
+  email: '',
+  password: '',
+};
+const onSubmit = values => {
+  console.log(values.name);
+  console.log(values.email);
+  console.log(values.password);
+  const k=validationSchema(values);
+  if (k==1){
+    console.log("values.email");
+    const registered = {
+      name:values.name,
+      email: values.email,
+      password: values.password,
+ };
+    register(registered).then(     
+      console.log(registered),
+      navigation.replace('LoginScreen')
+     );
   }
+
+};
+
+const formik = useFormik({
+  initialValues,
+  onSubmit,
+});
+const {
+  values,
+  errors,
+  handleChange,
+  isSubmitting,
+  handleSubmit,
+} = formik;
 
   return (
     <Background>
-      <BackButton goBack={navigation.goBack} />
-      <Logo />
-      <Header>Create Account</Header>
-      <TextInput
-        label="Name"
-        returnKeyType="next"
-        value={name.value}
-        onChangeText={(text) => setName({ value: text, error: '' })}
-        error={!!name.error}
-        errorText={name.error}
-      />
-      <TextInput
-        label="Email"
-        returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
-        autoCapitalize="none"
-        autoCompleteType="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-      />
-      <TextInput
-        label="Password"
-        returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: '' })}
-        error={!!password.error}
-        errorText={password.error}
-        secureTextEntry
-      />
-      <Button
-        mode="contained"
-        onPress={onSignUpPressed}
-        style={{ marginTop: 24 }}
-      >
-        Sign Up
-      </Button>
+    <BackButton goBack={navigation.goBack} />
+    <Logo />
+    <Header>Create Account</Header> 
+    <TextInput
+      label="Name"
+      returnKeyType="next"
+      value={values.name}
+      onChangeText={handleChange('name')}
+      error={!!nameError}
+      errorText={nameError}
+    />
+    <TextInput
+      label="Email"
+      returnKeyType="next"
+      value={values.email}
+      onChangeText={handleChange('email')}
+      error={!!emailError}
+      errorText={emailError}
+      autoCapitalize="none"
+      autoCompleteType="email"
+      textContentType="emailAddress"
+      keyboardType="email-address"
+    />
+    <TextInput
+      label="Password"
+      returnKeyType="done"
+      value={values.password}
+      onChangeText={handleChange('password')}
+      error={!!passwordError}
+      errorText={passwordError}
+      secureTextEntry
+    />
+    <Button mode="contained" onPress={handleSubmit}>
+      signup
+    </Button>
       <View style={styles.row}>
         <Text>Already have an account? </Text>
         <TouchableOpacity onPress={() => navigation.replace('LoginScreen')}>
