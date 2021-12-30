@@ -10,24 +10,67 @@ import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import {signin} from "../services/auth.services"
+
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
-
-  const onLoginPressed = () => {
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
-    }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  
+  const validationSchema = (values) => {
+      const emailError = emailValidator(values.email)
+      const passwordError = passwordValidator(values.password)
+      if (emailError || passwordError) {
+        setEmailError(emailError )
+        setPasswordError(passwordError )
+      
+        return 
+      }
+    return 1;
   }
+
+
+  const initialValues = {
+    email: '',
+    password: '',
+  };
+  const onSubmit = values => {
+    console.log(values.email);
+    console.log(values.password);
+    const k=validationSchema(values);
+    if (k==1){
+      console.log("values.email");
+
+      const registered = {
+        email: values.email,
+        password: values.password,
+   };
+      signin(registered).then(     
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Dashboard' }],
+        })
+        );
+    }
+
+  };
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+  });
+  const {
+    values,
+    errors,
+    handleChange,
+    isSubmitting,
+    handleSubmit,
+  } = formik;
+
 
   return (
     <Background>
@@ -37,10 +80,10 @@ export default function LoginScreen({ navigation }) {
       <TextInput
         label="Email"
         returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
+        value={values.email}
+        onChangeText={handleChange('email')}
+        error={!!emailError}
+        errorText={emailError}
         autoCapitalize="none"
         autoCompleteType="email"
         textContentType="emailAddress"
@@ -49,10 +92,10 @@ export default function LoginScreen({ navigation }) {
       <TextInput
         label="Password"
         returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: '' })}
-        error={!!password.error}
-        errorText={password.error}
+        value={values.password}
+        onChangeText={handleChange('password')}
+        error={!!passwordError}
+        errorText={passwordError}
         secureTextEntry
       />
       <View style={styles.forgotPassword}>
@@ -62,7 +105,7 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
+      <Button mode="contained" onPress={handleSubmit}>
         Login
       </Button>
       <View style={styles.row}>
