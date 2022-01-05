@@ -7,14 +7,14 @@ import com.example.demo3.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -37,6 +37,20 @@ public class MessageController {
 
     }
 
+    @GetMapping("/ListUsers")
+    public ResponseEntity<List<User>> getAllFriends(){
+        List<Message> message = messageService.findAllMessage();
+        ListIterator<Message> msgIterator = message.listIterator();
+        List<List<User>> couple_friends=null;
+       while (msgIterator.hasNext()) {
+        List<User> friends=msgIterator.next().getUser();
+        couple_friends.add(friends);
+
+        }
+        return new ResponseEntity(couple_friends, HttpStatus.OK);
+
+    }
+
     @GetMapping("/{idMessage}")
     public Message getMessage(@RequestParam Long idMessage){
         Message message = messageService.findMessagesByIdMessage(idMessage);
@@ -45,13 +59,11 @@ public class MessageController {
     }
 
      @PostMapping("/saveMessage")
-     public Message addMessage(@RequestParam("AudioFile") MultipartFile file,@RequestBody Message message ) throws IOException, SQLException {
-       System.out.println("Original Audio Byte Size - " + file.getBytes().length + " name : "+ file.getOriginalFilename() +
-             " type : "+ file.getContentType());
+     public Message addMessage(@RequestParam("AudioFile") byte [] file,@RequestBody Message message ) throws IOException, SQLException {
+       System.out.println("Original Audio Byte Size - " + file.length );
 
      if(file!=null) {
-        message.setAudio(compressBytes(file.getBytes()));
-        message.setUser(message.getUser());
+        message.setAudio(compressBytes(file));
         message.setInstantdeMessage(new Date());
      }
      return messageRepo.save(message);

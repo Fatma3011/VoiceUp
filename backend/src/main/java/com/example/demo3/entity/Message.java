@@ -1,6 +1,7 @@
 package com.example.demo3.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,10 +18,12 @@ public class Message implements Serializable {
 
     @Lob
     @Column(name = "audio",nullable = true)
+    @JsonIgnore
     private byte[] audio;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+    @JsonIgnore
     private Date instantdeMessage;
 
     public Date getInstantdeMessage() {

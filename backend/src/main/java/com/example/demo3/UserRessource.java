@@ -1,7 +1,4 @@
 package com.example.demo3;
-
-
-
 import com.example.demo3.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +15,7 @@ public class UserRessource {
     public UserRessource(UserService userservice,BCryptPasswordEncoder passwordEncoder) {
         this.userservice = userservice;
         this.passwordEncoder = passwordEncoder;
+
     }
 
     @GetMapping("/all")

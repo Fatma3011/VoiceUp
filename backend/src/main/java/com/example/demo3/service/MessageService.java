@@ -11,12 +11,14 @@ import java.util.List;
 @Service
 public class MessageService {
     private final MessageRepo messageRep;
+    private final Message message;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public MessageService(MessageRepo messagerepo, BCryptPasswordEncoder passwordEncoder) {
+    public MessageService(MessageRepo messagerepo, Message message, BCryptPasswordEncoder passwordEncoder) {
         this.messageRep = messagerepo;
+        this.message = message;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -37,6 +39,7 @@ public class MessageService {
     public Message saveMessage(Message msg) {
         return   messageRep.save(msg);
     }
+   // public List <User> getListFriends(){return message.getUser();};
 }
 
 
