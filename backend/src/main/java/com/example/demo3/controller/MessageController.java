@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.lang.model.element.Element;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -43,8 +44,9 @@ public class MessageController {
         ListIterator<Message> msgIterator = message.listIterator();
         List<List<User>> couple_friends=null;
        while (msgIterator.hasNext()) {
-        List<User> friends=msgIterator.next().getUser();
+        List<User> friends=message.get(msgIterator.nextIndex()).getUser();
         couple_friends.add(friends);
+        msgIterator.next();
 
         }
         return new ResponseEntity(couple_friends, HttpStatus.OK);
@@ -69,7 +71,7 @@ public class MessageController {
      return messageRepo.save(message);
     }
 
-    //get the Audio
+    //get the Audio by id Message
     @GetMapping(path = { "/getAudioByEmail/{idMessage}" })
     public Message getAudio(@PathVariable Long idMessage) throws IOException {
         Message message =  messageRepo.findMessagesByIdMessage(idMessage);
@@ -77,6 +79,26 @@ public class MessageController {
             message.setAudio(decompressBytes(message.getAudio()));
         }
         return message;
+    }
+    //get the Audio By Ids Users
+    @GetMapping(path = { "/getAudioByEmail/{id1}/{id2}" })
+    public byte [] getAudioByIdUsers(@PathVariable Long id1,@PathVariable Long id2) throws IOException {
+        byte [] resultat = new byte[0];
+        List<Message> message = messageService.findAllMessage();
+        ListIterator<Message> msgIterator = message.listIterator();
+        while (msgIterator.hasNext()) {
+            List<User> friends = message.get(msgIterator.nextIndex()).getUser();
+            if (id1 == friends.get(0).getId() && id2 == friends.get(1).getId()) {
+
+                if (message.get(msgIterator.nextIndex()).getAudio() != null) {
+                    message.get(msgIterator.nextIndex()).setAudio(decompressBytes(message.get(msgIterator.nextIndex()).getAudio()));
+                    resultat=message.get(msgIterator.nextIndex()).getAudio();
+                }
+            }
+            msgIterator.next();
+        }
+
+        return resultat;
     }
 
     public static byte[] compressBytes(byte[] data) {
