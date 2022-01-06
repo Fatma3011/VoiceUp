@@ -82,8 +82,8 @@ public class MessageController {
     }
     //get the Audio By Ids Users
     @GetMapping(path = { "/getAudioByEmail/{id1}/{id2}" })
-    public byte [] getAudioByIdUsers(@PathVariable Long id1,@PathVariable Long id2) throws IOException {
-        byte [] resultat = new byte[0];
+    public List<byte []> getAudioByIdUsers(@PathVariable Long id1,@PathVariable Long id2) throws IOException {
+        List<byte []> resultat = null;
         List<Message> message = messageService.findAllMessage();
         ListIterator<Message> msgIterator = message.listIterator();
         while (msgIterator.hasNext()) {
@@ -92,7 +92,7 @@ public class MessageController {
 
                 if (message.get(msgIterator.nextIndex()).getAudio() != null) {
                     message.get(msgIterator.nextIndex()).setAudio(decompressBytes(message.get(msgIterator.nextIndex()).getAudio()));
-                    resultat=message.get(msgIterator.nextIndex()).getAudio();
+                    resultat.add(message.get(msgIterator.nextIndex()).getAudio());
                 }
             }
             msgIterator.next();
