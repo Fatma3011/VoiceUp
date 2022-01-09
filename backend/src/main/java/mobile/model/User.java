@@ -33,6 +33,13 @@ public class User implements Serializable {
         this.message = message;
     }
 
+    public User(Long id, String nom_user) {
+        this.id=id;
+        this.nom_User=nom_user;
+        this.email="";
+        this.motdepasse="";
+    }
+
     public Long getId() {
         return id;
     }

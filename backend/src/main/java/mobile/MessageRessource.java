@@ -2,7 +2,6 @@ package mobile;
 
 import mobile.model.Message;
 import mobile.model.User;
-import mobile.repo.Messagerepo;
 import mobile.service.MessageService;
 import mobile.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -48,6 +47,39 @@ public class MessageRessource {
         }
        return new ResponseEntity(couple_friends, HttpStatus.OK);
     }
+
+    @GetMapping("/ListUsers/{id}")
+    public ResponseEntity<List<User>> getAllFriendsofUser(@PathVariable  Long id) {
+        System.out.println(id);
+        List<Message> message = messageService.findAllMessage();
+        ListIterator<Message> msgIterator = message.listIterator();
+         List<User> List_friends=new ArrayList<>();
+        List<String> f = null;
+        List<String> kk = null;
+
+        while (msgIterator.hasNext()) {
+            List<User> friends = message.get(msgIterator.nextIndex()).getUser();
+
+            if (id == friends.get(0).getId()) {
+
+                //  List_friends.add(friends.get(1).getId().toString());
+                // List_friends.add(friends.get(1).getNom_User());
+
+             // kk.add(new String[]{friends.get(1).getId().toString(),
+               //       friends.get(1).getNom_User()});
+               // Ami mi =new Ami(Long id ,String nom);
+               List_friends.add(new User(friends.get(1).getId(),friends.get(1).getNom_User()));
+
+                msgIterator.next();
+
+            }
+
+
+            //return null;
+        }
+        return new ResponseEntity(List_friends, HttpStatus.OK);
+    }
+
 
 
     //save the message given two id of users
