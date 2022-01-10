@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var API_BASE_URL = 'http://localhost:4000/';","map":{"version":3,"sources":["/home/fatmach/Documents/VoiceUp/frontend/src/constants/api.const.js"],"names":["API_BASE_URL"],"mappings":"AAAA,OAAO,IAAOA,YAAY,GAAC,wBAApB","sourcesContent":["export const  API_BASE_URL='http://localhost:4000/'\n"]},"metadata":{},"sourceType":"module"}

@@ -9,9 +9,9 @@ export default function StartScreen({ navigation }) {
   return (
     <Background>
       <Logo />
-      <Header>Login Template</Header>
+      <Header>Voice Up</Header>
       <Paragraph>
-        The easiest way to start with your amazing application.
+      The easiest way to discuss with your friends.
       </Paragraph>
       <Button
         mode="contained"
@@ -24,6 +24,12 @@ export default function StartScreen({ navigation }) {
         onPress={() => navigation.navigate('RegisterScreen')}
       >
         Sign Up
+      </Button>
+      <Button
+        mode="outlined"
+        onPress={() => navigation.navigate('FriendsList',{id :14})}
+      >
+        Friends List
       </Button>
     </Background>
   )

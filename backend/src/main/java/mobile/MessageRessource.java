@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -33,7 +34,7 @@ public class MessageRessource {
 
     }
 
-    @GetMapping("/ListUsers")
+    @GetMapping("/ListAll")
     public ResponseEntity<List<User>> getAllFriends(){
         List<Message> message = messageService.findAllMessage();
         ListIterator<Message> msgIterator = message.listIterator();
@@ -50,35 +51,25 @@ public class MessageRessource {
 
     @GetMapping("/ListUsers/{id}")
     public ResponseEntity<List<User>> getAllFriendsofUser(@PathVariable  Long id) {
-        System.out.println(id);
+
         List<Message> message = messageService.findAllMessage();
         ListIterator<Message> msgIterator = message.listIterator();
          List<User> List_friends=new ArrayList<>();
-        List<String> f = null;
-        List<String> kk = null;
+
 
         while (msgIterator.hasNext()) {
             List<User> friends = message.get(msgIterator.nextIndex()).getUser();
 
             if (id == friends.get(0).getId()) {
-
-               List_friends.add(new User(friends.get(1).getId(),friends.get(1).getNom_User()));
-
-              //  msgIterator.next();
-
+                    List_friends.add(new User(friends.get(1).getId(), friends.get(1).getNom_User()));
             }
 
             if (id == friends.get(1).getId()) {
-                ;
                 List_friends.add(new User(friends.get(0).getId(),friends.get(0).getNom_User()));
-
-              //  msgIterator.next();
-
             }
+
             msgIterator.next();
 
-
-            //return null;
         }
         return new ResponseEntity(List_friends, HttpStatus.OK);
     }

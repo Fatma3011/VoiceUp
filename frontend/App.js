@@ -7,10 +7,10 @@ import {
   StartScreen,
   LoginScreen,
   RegisterScreen,
-  ResetPasswordScreen,
-  Dashboard,
+  Dashboard
 } from './src/screens'
 
+import FriendsList  from './src/screens/FriendsList'
 const Stack = createStackNavigator()
 
 export default function App() {
@@ -27,10 +27,8 @@ export default function App() {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-          />
+          <Stack.Screen name="FriendsList" component={FriendsList} />
+          
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
