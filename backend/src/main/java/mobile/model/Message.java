@@ -21,7 +21,7 @@ public class Message implements Serializable {
 
     //@OneToMany(cascade = CascadeType.ALL)
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+   // @JoinColumn(name = "id")
     private List<User> user;
 
     public Message(Long idMessage) {

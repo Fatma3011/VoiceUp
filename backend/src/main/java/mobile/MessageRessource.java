@@ -62,17 +62,20 @@ public class MessageRessource {
 
             if (id == friends.get(0).getId()) {
 
-                //  List_friends.add(friends.get(1).getId().toString());
-                // List_friends.add(friends.get(1).getNom_User());
-
-             // kk.add(new String[]{friends.get(1).getId().toString(),
-               //       friends.get(1).getNom_User()});
-               // Ami mi =new Ami(Long id ,String nom);
                List_friends.add(new User(friends.get(1).getId(),friends.get(1).getNom_User()));
 
-                msgIterator.next();
+              //  msgIterator.next();
 
             }
+
+            if (id == friends.get(1).getId()) {
+                ;
+                List_friends.add(new User(friends.get(0).getId(),friends.get(0).getNom_User()));
+
+              //  msgIterator.next();
+
+            }
+            msgIterator.next();
 
 
             //return null;

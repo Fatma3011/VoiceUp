@@ -17,20 +17,20 @@ public class User implements Serializable {
     private String email ;
     //@JsonIgnore
     private String motdepasse;
-    @ManyToOne(cascade = CascadeType.ALL)
+   // @ManyToOne(cascade = CascadeType.ALL)
     //@OneToMany
-    @JoinColumn(name="idMessage")
-    private Message message;
+   // @JoinColumn(name="idMessage")
+   // private Message message;
 
     public User() {
     }
 
-    public User(Long id, String nom_User, String email, String motdepasse, Message message) {
+    public User(Long id, String nom_User, String email, String motdepasse) {
         this.id = id;
         this.nom_User = nom_User;
         this.email = email;
         this.motdepasse = motdepasse;
-        this.message = message;
+       /// this.message = message;
     }
 
     public User(Long id, String nom_user) {
