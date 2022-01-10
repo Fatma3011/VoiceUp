@@ -25,6 +25,12 @@ export default function StartScreen({ navigation }) {
       >
         Sign Up
       </Button>
+      <Button
+        mode="outlined"
+        onPress={() => navigation.navigate('FriendsList',{id :9})}
+      >
+        Friends List
+      </Button>
     </Background>
   )
 }
