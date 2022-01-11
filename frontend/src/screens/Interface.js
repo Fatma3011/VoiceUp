@@ -1,8 +1,12 @@
 import React from 'react';
-import {View,Text, Button,StyleSheet,Image} from "react-native";
+import {View,Text, Button,StyleSheet,Image,TouchableOpacity} from "react-native";
 import {Audio} from "expo-av";
 import { useState,useRef } from "react";
 import { audioSave } from '../services/audio.services';
+import Logo from '../components/Logo'
+import BackButton from '../components/BackButton'
+import Background from '../components/Background'
+
 
 const styles = StyleSheet.create({
     container: {
@@ -20,7 +24,13 @@ const styles = StyleSheet.create({
     width: 200, 
     height: 30,
       },
-
+      image: {
+        width: 24,
+        height: 24,
+      },
+      barre:{
+        backgroundColor:'#560CCE',
+      }
 
   });
 
@@ -35,8 +45,8 @@ function Interface({ route, navigation }){
     }*/])
     const [Id,setId]=useState(0)
 
-    const user_id=30;//à modifier
-    const talk_to_id=14//à modifier
+    const user_id=route.params.idu;//à modifier
+    const talk_to_id=route.params.idf//à modifier
     async function startRecording(){
       try{
 
@@ -67,14 +77,14 @@ function Interface({ route, navigation }){
         const uri=recording.getURI();
         console.log("Recording stopped and stored at ",uri);
         setUri(uri);
-        setMessages([... messages,{
-            id: Id,Uri:uri, type:"out",time:new Date().toLocaleString('en-GB', { timeZone: 'UTC' })
-        }])
+         setMessages([... messages,{
+             id: Id,Uri:uri, type:"out",time:new Date().toLocaleString('en-GB', { timeZone: 'UTC' })
+         }])
         setId(Id+1)
-        console.log(messages)
+       // console.log(messages)
         console.log(uri);
-        audioSave(uri).then((response)=>{console.log("success");})
-                      .catch((e)=>{console.log("error");})
+          audioSave(uri,user_id,talk_to_id).then((response)=>{console.log("success");console.log(response)})
+                        .catch((e)=>{console.log("error");})
     }
 
 
@@ -121,12 +131,18 @@ function Interface({ route, navigation }){
   }
 return(
 
-<View style={{flex: 1}}>
-<BackButton goBack={navigation.goBack} />
-      <Logo />
+<View style={{flex: 1}} >
+  <View style={styles.barre}>
+  <TouchableOpacity onPress={() => navigation.navigate('FriendsList',{id:user_id})}>
+<Image
+        style={styles.image}
+        source={require('../assets/arrow_back.png')}
+      /></TouchableOpacity>
 <View style={{height:"6%",justifyContent: 'center', alignItems:"center"}}>
-  <Text>Rania</Text>
+  <Text><b>{route.params.user}</b></Text>
 </View>
+  </View>
+
 <View style={styles.container}>
 
 {messages.length > 0 ? (
@@ -155,7 +171,6 @@ return(
 </Button>
 </View>
 </View>
-
 
 );
 }

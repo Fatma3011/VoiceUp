@@ -53,10 +53,6 @@ export default function LoginScreen({ navigation }) {
       signin(registered).then( (response)=>    
         {console.log(response.data.id);
           setId(id);
-        // navigation.reset({
-        //   index: 0,
-        //   routes: [{ name: 'Dashboard' }],
-        // })
         navigation.navigate('FriendsList',{id:response.data.id})
        } );
     }
@@ -96,7 +92,7 @@ export default function LoginScreen({ navigation }) {
       <TextInput
         label="Password"
         returnKeyType="done"
-        value={values.password}
+        value={values.motdepasse}
         onChangeText={handleChange('motdepasse')}
         error={!!passwordError}
         errorText={passwordError}

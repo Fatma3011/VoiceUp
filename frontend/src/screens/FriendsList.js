@@ -51,7 +51,24 @@ export default function FriendsList({ route, navigation }) {
     const id = route.params.id;
     console.log(id)
     useEffect(()=>{const friends=ListFriends(id)
-      .then(res=>{setData(res.data);console.log(res.data);})
+      .then((res)=>{
+        var arr=res.data;
+        var distinct = [];
+        var values=[];
+        for (var i = 0; i < arr.length; i++){
+          if (arr[i].id  in distinct){
+          }
+          else{           
+             distinct.push(arr[i].id);
+              values.push(arr[i]);
+          }
+        };
+          
+        setData(values);
+        console.log("data",data);
+        console.log(distinct);
+      }
+        )
     .catch(e=>console.log(e));},[]);
 
   return (
@@ -67,7 +84,7 @@ export default function FriendsList({ route, navigation }) {
                   <TouchableOpacity
                      key = {item.id}
                      style = {styles.container}
-                     onPress={() => navigation.navigate('Interface',{idf:item.id,idu:id})}
+                     onPress={() => navigation.navigate('Interface',{idf:item.id,idu:id, user: item.nom_User})}
                  
                      >
                      <User></User>
@@ -79,6 +96,18 @@ export default function FriendsList({ route, navigation }) {
                ))
             }
          </View>
+         <Button
+         style={{marginTop: "90%" }}
+        mode="outlined"
+        onPress={() =>
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'StartScreen' }],
+          })
+        }
+      >
+        Logout
+      </Button>
     </View>
     </Background>
  
