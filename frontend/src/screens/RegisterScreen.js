@@ -15,16 +15,16 @@ import {useFormik} from 'formik';
 import { register } from '../services/auth.services'
 
 export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState('')
+  const [nom_User, setNom_User] = useState('')
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [motdepasse, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [nameError, setNameError] = useState('')
   const validationSchema = (values) => {
     const emailError = emailValidator(values.email)
-    const passwordError = passwordValidator(values.password)
-    const nameError = nameValidator(values.name)
+    const passwordError = passwordValidator(values.motdepasse)
+    const nameError = nameValidator(values.nom_User)
     if (emailError || passwordError || nameError) {
       setEmailError(emailError )
       setPasswordError(passwordError )
@@ -34,21 +34,21 @@ export default function RegisterScreen({ navigation }) {
   return 1;
 }
 const initialValues = {
-  name:'',
+  nom_User:'',
   email: '',
-  password: '',
+  motdepasse: '',
 };
 const onSubmit = values => {
-  console.log(values.name);
+  console.log(values.nom_User);
   console.log(values.email);
-  console.log(values.password);
+  console.log(values.motdepasse);
   const k=validationSchema(values);
   if (k==1){
     console.log("values.email");
     const registered = {
-      name:values.name,
+      nom_User:values.nom_User,
       email: values.email,
-      password: values.password,
+      motdepasse: values.motdepasse,
  };
     register(registered).then(     
       console.log(registered),
@@ -78,8 +78,8 @@ const {
     <TextInput
       label="Name"
       returnKeyType="next"
-      value={values.name}
-      onChangeText={handleChange('name')}
+      value={values.nom_User}
+      onChangeText={handleChange('nom_User')}
       error={!!nameError}
       errorText={nameError}
     />
@@ -98,8 +98,8 @@ const {
     <TextInput
       label="Password"
       returnKeyType="done"
-      value={values.password}
-      onChangeText={handleChange('password')}
+      value={values.motdepasse}
+      onChangeText={handleChange('motdepasse')}
       error={!!passwordError}
       errorText={passwordError}
       secureTextEntry

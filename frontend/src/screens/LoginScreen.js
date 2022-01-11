@@ -20,10 +20,11 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
-  
+  const [id, setId] = useState('')
+
   const validationSchema = (values) => {
       const emailError = emailValidator(values.email)
-      const passwordError = passwordValidator(values.password)
+      const passwordError = passwordValidator(values.motdepasse)
       if (emailError || passwordError) {
         setEmailError(emailError )
         setPasswordError(passwordError )
@@ -36,25 +37,28 @@ export default function LoginScreen({ navigation }) {
 
   const initialValues = {
     email: '',
-    password: '',
+    motdepasse: '',
   };
   const onSubmit = values => {
     console.log(values.email);
-    console.log(values.password);
+    console.log(values.motdepasse);
     const k=validationSchema(values);
     if (k==1){
       console.log("values.email");
 
       const registered = {
         email: values.email,
-        password: values.password,
+        motdepasse: values.motdepasse,
    };
-      signin(registered).then(     
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Dashboard' }],
-        })
-        );
+      signin(registered).then( (response)=>    
+        {console.log(response.data.id);
+          setId(id);
+        // navigation.reset({
+        //   index: 0,
+        //   routes: [{ name: 'Dashboard' }],
+        // })
+        navigation.navigate('FriendsList',{id:response.data.id})
+       } );
     }
 
   };
@@ -93,7 +97,7 @@ export default function LoginScreen({ navigation }) {
         label="Password"
         returnKeyType="done"
         value={values.password}
-        onChangeText={handleChange('password')}
+        onChangeText={handleChange('motdepasse')}
         error={!!passwordError}
         errorText={passwordError}
         secureTextEntry

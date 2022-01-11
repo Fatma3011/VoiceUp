@@ -5,8 +5,9 @@ export async function register(login){
     try {
         const response = await request({
             method: 'POST',
-            url: '/auth/signup',
+            url: 'user/add',
             data: login, 
+            headers: { 'Access-Control-Allow-Origin': true },
         })
         console.log("step1");
         console.log(response);
@@ -21,8 +22,10 @@ export async function signin(login){
 
         const response = await request({
             method: 'POST',
-            url: '/auth/signin',
+            url: 'user/loginUser',
             data: login, 
+            headers: { 'Access-Control-Allow-Origin': true },
+
         })
         console.log(response);
                 return response

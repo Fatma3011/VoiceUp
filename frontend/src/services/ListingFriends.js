@@ -30,8 +30,6 @@ export async function ListFriends(id){
         throw (error.response || error.message)
     }
 }
-import axios from "axios";
-import React from "react";
 
 
 
