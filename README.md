@@ -47,4 +47,24 @@ les conversations.
 ```
 ## Preview
 
-In progress
+
+***Start Screen Application***
+
+![1](https://github.com/Fatma3011/VoiceUp/blob/master/startScreen.PNG)
+
+
+***Log up Screen***
+
+![1](https://github.com/Fatma3011/VoiceUp/blob/master/logUp.PNG)
+
+***Log in Screen***
+
+![1](https://github.com/Fatma3011/VoiceUp/blob/master/logIn.PNG)
+
+***Friends List Screen***
+
+![1](https://github.com/Fatma3011/VoiceUp/blob/master/listFriends.PNG)
+
+***Discussion Screen***
+
+![1](https://github.com/Fatma3011/VoiceUp/blob/master/Discussion.PNG)
